@@ -2,11 +2,12 @@
 Joel Guadalupe García Guzmán - A01713785
 ## Descripción del problema escogido
 Para esta entrega nos piden escoger algún problema para demostrar diferentes paradigmas de programación que hemos visto a lo largo del curso, por lo que voy a resolver un problema de Leetcode, específicamente el problema <a href="https://leetcode.com/problems/house-robber-iii"/> 337. House Robber III</a>, el cual nos dice lo siguiente:
+
 > The thief has found himself a new place for his thievery again. There is only one entrance to this area, called root.
 > Besides the root, each house has one and only one parent house. After a tour, the smart thief realized that all houses in this place form a binary tree. It will automatically contact the police if two directly-linked houses were broken into on the same night.
 > Given the root of the binary tree, return the maximum amount of money the thief can rob without alerting the police.
 
-(LeetCode, 2026)
+(LeetCode, s.f.)
 
 Entonces, lo que tenemos que hacer para este problema es, primeramente, recorrer la estructura del árbol y tomar una decisión para robar la mayor cantidad de casas posibles. Para cada casa (nodo), existen dos posibles escenarios:  
 
@@ -15,4 +16,9 @@ Entonces, lo que tenemos que hacer para este problema es, primeramente, recorrer
 - No robar la casa actual: Esto hace que no robemos nada de la casa, pero que sí tengamos la posibilidad de robar a sus vecinos inmediatos (sus hijos).
 
 Esa sería la aproximación que voy a tomar para resolver el problema, es una <i> variación de el problema que si haces algo, tienes que considerar las desventajas en el futuro, no se como mencionarlo pero como la madre de la moneda, que no puedes ser 100% greedy por que tienes que considerar el futuro</i>
-## 
+## Paradigmas a usar en las soluciones
+Las 2 posibles soluciones que voy a implementar y describir las voy a llamar solución A y solución B, la solución **A** va a ser la que sí implemente, esta la voy a hacer usando el paradigma de **programación funcional**, y voy a usar el lenguaje de Racket, basado en Scheme.
+Mientras que para la solución **B**, solamente voy a describir el cómo se podría implementar en el paradigma **concurrente**. Por lo que, al no implementarlo, solamente voy a describirlo sin usar ningún lenguaje de programación.
+
+## Bibliografía
+LeetCode. (s.f.). House robber III. Recuperado el 21 de mayo de 2026, de https://leetcode.com/problems/house-robber-iii/description/

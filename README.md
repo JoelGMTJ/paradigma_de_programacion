@@ -17,7 +17,8 @@ Entonces, lo que tenemos que hacer para este problema es, primeramente, recorrer
 
 - No robar la casa actual: Esto hace que no robemos nada de la casa, pero que sí tengamos la posibilidad de robar a sus vecinos inmediatos (sus hijos).
 
-Esa sería la aproximación que voy a tomar para resolver el problema, es una <i> variación de el problema que si haces algo, tienes que considerar las desventajas en el futuro, no se como mencionarlo pero como la madre de la moneda, que no puedes ser 100% greedy por que tienes que considerar el futuro</i>
+Esta aproximación demuestra que el problema no puede resolverse utilizando un enfoque completamente greedy, ya que tomar la decisión aparentemente óptima en el presente (robar la casa actual siempre que tenga mucho dinero) puede bloquear opciones que al final del recorrido nos otorgarían más dinero. Por lo tanto, el problema exhibe una propiedad de subestructura óptima, donde la solución global requiere evaluar todos los estados futuros para poder seleccionar una estrategia desde el inicio.
+
 ## Paradigmas a usar en las soluciones
 Las 2 posibles soluciones que voy a implementar y describir las voy a llamar solución A y solución B, la solución **A** va a ser la que sí implemente, esta la voy a hacer usando el paradigma de **programación funcional**, y voy a usar el lenguaje de Racket, basado en Scheme.
 Mientras que para la solución **B**, solamente voy a describir el cómo se podría implementar en el paradigma **concurrente**. Por lo que, al no implementarlo, solamente voy a describirlo sin usar ningún lenguaje de programación.
@@ -31,7 +32,15 @@ En este paradigma tomamos las funciones como objetos, que funcionen tanto como f
 Las principales ventajas de este paradigma de programación es que nos evitamos el manejo de memoria, pues ocurre automáticamente, semántica máss simple, y el evitarnos efectos secundarios que puedan ocurrir al momento de correr los programas.
 
 ### Programación concurrente
-La programación concurrente 
+Este paradigma se aleja de la ejecución secuencial tradicional, donde una instrucción debe terminar para que la siguiente comience, y en su lugar se basa en ejecutar varias tareas el mismo tiempo. El autor David Watt describe la programación concurrente como un paradigma que se enfoca en sistemas formados por múltiples procesos independientes que se ejecutan al mismo tiempo y que, ocasionalmente, necesitan interactuar entre sí.
+
+Algo fundamental en este paradigma es el concepto de dividir el trabajo. En lugar de tener un solo flujo de control (un solo hilo) resolviendo todo el problema de inicio a fin, el programa se divide en sub-tareas que pueden progresar al mismo tiempo. Sin embargo, a diferencia de la programación funcional que evita los estados mutables, la concurrencia introduce el reto de los recursos compartidos. Al tener múltiples procesos ejecutándose a la vez, tenemos que considerar lo siguiente, si queremos hacer varias tareas al mismo tiempo, tenemos que tener una estructura bastante clara de el cómo queremos dividir las tareas.
+
+Las principales ventajas de este paradigma son una utilización mucho más eficiente del hardware moderno (aprovechando los procesadores multinúcleo), la capacidad de modelar sistemas del mundo real donde los eventos ocurren simultáneamente, y una reducción drástica en el tiempo de ejecución (Speed Up) para problemas que pueden fragmentarse utilizando el principio de "divide y vencerás".
+
+La principal desventaja es la sobrecarga (overhead) de comunicación y organización. Existe un costo agregado en preparar los hilos, transferir los datos entre distintas unidades de procesamiento (del CPU al GPU) y volver a ensamblar los resultados. Si el problema no es lo suficientemente grande o complejo, este tiempo invertido en organizar y comunicar las tareas puede llegar a ser mayor que el tiempo que se ahorra al ejecutarlas paralelamente.
+
+## Ahora si la programación
 
 ## Bibliografía
 LeetCode. (s.f.). House robber III. Recuperado el 21 de mayo de 2026, de https://leetcode.com/problems/house-robber-iii/description/

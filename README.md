@@ -40,7 +40,45 @@ Las principales ventajas de este paradigma son una utilización mucho más efici
 
 La principal desventaja es la sobrecarga (overhead) de comunicación y organización. Existe un costo agregado en preparar los hilos, transferir los datos entre distintas unidades de procesamiento (del CPU al GPU) y volver a ensamblar los resultados. Si el problema no es lo suficientemente grande o complejo, este tiempo invertido en organizar y comunicar las tareas puede llegar a ser mayor que el tiempo que se ahorra al ejecutarlas paralelamente.
 
-## Ahora si la programación
+## Solución A
+Como he usado el lenguaje Racket, para correr el código es necesario tener instalado el compilador de Racket, con este podemos correr el código y observar los resultados.
+
+Para garantizar la correctitud del programa e invalidar posibles regresiones, se implementó una suite de pruebas unitarias automatizadas utilizando la librería estándar rackunit de Racket. Esta herramienta nos permite hacer diversas pruebas que verifican si la salida de la función pura coincide con el comportamiento esperado.
+
+La ejecución de las pruebas arrojó que el programa pasa exitosamente todos los escenarios probados:
+
+- Casos Límite y Base (Pruebas 1 y 2): Se evaluó el comportamiento ante un árbol completamente nulo (retornando 0 como se espera por la ausencia de casas) y un árbol con un solo nodo (retornando el valor de dicha casa), demostrando que la condición de parada de la recursividad funciona correctamente.
+
+- Casos de Uso Generales (Pruebas 3 y 4): Se transcribieron las estructuras jerárquicas descritas en la literatura del problema (LeetCode, s.f.). Las pruebas automatizadas construyeron los árboles equivalentes a los arreglos [3,2,3,null,3,null,1] y [3,4,5,1,3,null,1], confirmando que el algoritmo toma las decisiones óptimas correctas sin violar la restricción de adyacencia, retornando beneficios de 7 y 9 respectivamente.
+
+- Casos de Desbalanceo (Prueba 5): Se probó la resistencia del algoritmo ante un "árbol degenerado" (una estructura donde cada nodo padre solo tiene un hijo izquierdo, asimilándose a una lista enlazada). El programa logró abstraer la estructura lineal y propagó el estado inmutable de forma correcta.
+
+Cabe mencionar que en el código agregué algunos comentarios que muestran lo que pasa al correrlo, sin embargo como en los lenguajes funcionales no puedes externar las variables fuera de las funciones, esto para evitar los efectos secundarios, por lo que las cantidades mostradas en la línea de comandos fueron escritas manualmente.
+
+### Lógica de la Solución
+Para resolver este problema, el código implementa DFS (Depth First Search) de abajo hacia arriba. En lugar de utilizar variables globales o acumuladores, se usa una función recursiva que evalúa cada nodo y devuelve siempre una lista inmutable con dos valores: el beneficio máximo del escenario donde sí se roba esa casa, y el beneficio máximo del escenario donde no se roba.
+
+Por lo que siempre vamos a saber cuando es el valor obtenido en cualquier de los 2 casos, si comenzamos robando la casa inicial (la raiz) o si decidimor robar a sus hijos inmediatos. Con esto, solamente nos queda comparar los 2 resultados y tomar el que más ganancias nos da.
+
+Esta arquitectura demuestra de manera efectiva la aplicación del paradigma de programación funcional por las siguientes razones:
+
+- Inmutabilidad estricta: En ningún momento del algoritmo se reasignan valores a una variable, algo que ni si quiera es posible en Racket. Los estados se propagan matemáticamente a través de la pila de recursión y las variables solamente aparecen y desaparecen cuando dejan de ser útiles.
+
+- Funciones puras y recursividad: Se eliminan por completo los ciclos como los for o while. La lógica se basa en una función pura que, ante el mismo subárbol de entrada, garantiza retornar siempre la misma lista de salida, comportándose exactamente como la "caja negra" descrita por Louden.
+
+## Solución B
+Para la solución B, usando el paradigma concurrente, la idea principal sería aplicar directamente el concepto de "dividir y conquistar". Como la decisión que tomemos sobre los nodos del lado izquierdo del árbol no afecta a las decisiones del lado derecho, podemos tratar ambos lados como dos tareas completamente independientes.
+
+En lugar de que el programa recorra casa por casa de forma tradicional, al llegar a una intersección podríamos dividir el trabajo: mandamos una tarea a calcular la ganancia máxima de todo el lado izquierdo y, exactamente al mismo tiempo, mandamos otra tarea a calcular la del lado derecho. Una vez que ambas terminan de revisar sus respectivas casas, juntamos los resultados y el programa toma la decisión final de si conviene robar la casa actual o no.
+
+Con esta aproximación aprovecharíamos la computadora para procesar múltiples caminos a la vez y terminar de revisar el árbol mucho más rápido. Sin embargo, como mencioné en la descripción del paradigma, tendríamos que lidiar con la desventaja de gastar recursos extra de la computadora para organizar estas tareas simultáneas y asegurarnos de que entreguen sus resultados correctamente antes de tomar la decisión final.
+
+## Análisis de complejidad
+Para la Solución A (Funcional), la complejidad de tiempo es de *O(N)*, donde *N* representa el total de casas. Esto es porque el programa tiene que visitar cada casa exactamente una vez para hacer sus cálculos. En cuanto a la complejidad de espacio, es de *O(H)*, donde *H* es la altura máxima del árbol; esto significa que la memoria que requiere la computadora depende de qué tan profundo sea el camino de casas que está revisando en ese momento.
+
+Por otro lado, la Solución B (Concurrente) mantendría el mismo esfuerzo total de *O(N)* porque igual tiene que revisar todas las casas, pero al hacer las revisiones al mismo tiempo, el tiempo real que nosotros esperaríamos por el resultado podría bajar hasta *O(H)*. Sin embargo, su complejidad de espacio sería mucho mayor, ya que el sistema necesita gastar memoria extra para crear y coordinar todas esas tareas simultáneas.
+
+Si comparamos ambas, la solución funcional es mucho más estable y segura. Al no usar variables que cambien de valor, no hay riesgo de que los procesos choquen o se roben información entre sí. La solución concurrente suena más rápida, pero en la práctica solo valdría la pena si tuviéramos un árbol de casas gigante y perfectamente equilibrado. Si el árbol es pequeño o tiene formas irregulares (como los casos de prueba de LeetCode), el tiempo que perdemos organizando las tareas paralelas sería mayor que lo que ahorramos, haciendo que la solución funcional sea la mejor opción.
 
 ## Bibliografía
 LeetCode. (s.f.). House robber III. Recuperado el 21 de mayo de 2026, de https://leetcode.com/problems/house-robber-iii/description/

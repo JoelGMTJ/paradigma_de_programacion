@@ -3,10 +3,10 @@
 
 (define-struct tree-node
   (val left right) #:mutable #:transparent)
-
+ 
 ;; Funcion principal
 (define (rob root)
-  
+   
   (define (dfs node)
     (if (not node)
         '(0 0)

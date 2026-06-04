@@ -46,10 +46,16 @@ Como he usado el lenguaje Racket, para correr el código es necesario tener inst
 TO-DO MENCIONAR QUE SE PUEDE CORRER DIRECTAMENTE EN LEETCODE
 
 ### Lógica de la Solución
-Como implementé mi lógica es con un DFS, la cual siempre te va a devolver una lista con 2 valores, uno en el que sí robas la casa actual y otro en el que no. El caso base de esta función es que llegues al final y no tenga ningún hijo, en cual caso vamos a agregarle 0 a ambos valores.
-También usamos el **match-let** para que los valores que nos regresa la función, los guardemos en variables temporales con nombres más representativos los cuales he llamado left-rob y left-not-rob (lo mismo para los hijos del lado derecho).
+Como implementé mi lógica es con un DFS, la cual siempre te va a devolver una lista con 2 valores, uno en el que sí robas la casa actual y otro en el que no. El caso base de esta función es que llegues al final y el nodo no exista, en cual caso vamos a agregarle 0 a ambos valores.
+También usamos el **match-let** para que los valores que nos regresa el DFS. Esta función de match-let funciona usando *pattern-matching*, la cual nos ayuda a almacenarlos en identificadores (los cuales funcionan similar a variables, pero siendo inmutables  y siendo locales) y con esto las podremos usar a nuestra conveniencia.
 
-Luego, en las variables temporales de rob-this
+Luego en los identificadores de rob-this y not-rob-this les vamos a sumar los valores previos, pero cada uno funciona ligeramente diferente.
+Para rob-this, es imposible robar a sus hijos, por lo que nos vemos obligados a sumarle el resultado de NO robar a sus hijos.
+Ahora, para not-rob-this es ligeramente diferente, en que podemos tomar la desición de usar los valores que robamos a sus hijos o no, por lo que vamos a tomar el máximo de estas 2 opciones, así garantizando que podamos tomar patrones ligeramente inusuales para robar lo más posible.
+
+Luego ya fuera de la función DFS, solamente vamos a regresar el valor más grande de los 2. Con esto resolvemos el problema y hacemos lo que nos pide Leetcode, regresar la mayor cantidad de dinero que podríamos robar.
+
+Con esto logramos ver que nuestra solución aprovecha las ventajas de la programación funcional, y no tiene variables mutables, sino que toda la información la estamos pasando mediante las funciones, dejando el código más limpio y sin usar ciclos ni variables globales.
 
 ### Ejecución de pruebas
 Para asegurarnos que el programa funciona, se implementó una suite de pruebas unitarias automatizadas utilizando la librería estándar rackunit de Racket. Esta herramienta nos permite hacer diversas pruebas que verifican si la salida de la función pura coincide con el comportamiento esperado.

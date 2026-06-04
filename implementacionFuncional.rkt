@@ -1,23 +1,25 @@
 #lang racket
 (require rackunit) ; librería de pruebas automatizadas
 
+;; Estructura de los arboles dada por Leetcode
 (define-struct tree-node
   (val left right) #:mutable #:transparent)
  
+ ;; Funcion de Depth First Search
+(define (dfs node)
+  (if (not node)
+      '(0 0)
+      (match-let ([(list left-rob left-not-rob) (dfs (tree-node-left node))]
+                  [(list right-rob right-not-rob) (dfs (tree-node-right node))])
+        
+        (let ([rob-this (+ (tree-node-val node) left-not-rob right-not-rob)]
+              [not-rob-this (+ (max left-rob left-not-rob) 
+                               (max right-rob right-not-rob))])
+          (list rob-this not-rob-this)))))
+
 ;; Funcion principal
 (define (rob root)
    
-  (define (dfs node)
-    (if (not node)
-        '(0 0)
-        (match-let ([(list left-rob left-not-rob) (dfs (tree-node-left node))]
-                    [(list right-rob right-not-rob) (dfs (tree-node-right node))])
-          
-          (let ([rob-this (+ (tree-node-val node) left-not-rob right-not-rob)]
-                [not-rob-this (+ (max left-rob left-not-rob) 
-                                 (max right-rob right-not-rob))])
-            (list rob-this not-rob-this)))))
-  
   (match-let ([(list final-rob final-not-rob) (dfs root)])
     (max final-rob final-not-rob)))
 

@@ -43,7 +43,16 @@ La principal desventaja es la sobrecarga (overhead) de comunicación y organizac
 ## Solución A
 Como he usado el lenguaje Racket, para correr el código es necesario tener instalado el compilador de Racket, con este podemos correr el código y observar los resultados.
 
-Para garantizar la correctitud del programa e invalidar posibles regresiones, se implementó una suite de pruebas unitarias automatizadas utilizando la librería estándar rackunit de Racket. Esta herramienta nos permite hacer diversas pruebas que verifican si la salida de la función pura coincide con el comportamiento esperado.
+TO-DO MENCIONAR QUE SE PUEDE CORRER DIRECTAMENTE EN LEETCODE
+
+### Lógica de la Solución
+Como implementé mi lógica es con un DFS, la cual siempre te va a devolver una lista con 2 valores, uno en el que sí robas la casa actual y otro en el que no. El caso base de esta función es que llegues al final y no tenga ningún hijo, en cual caso vamos a agregarle 0 a ambos valores.
+También usamos el **match-let** para que los valores que nos regresa la función, los guardemos en variables temporales con nombres más representativos los cuales he llamado left-rob y left-not-rob (lo mismo para los hijos del lado derecho).
+
+Luego, en las variables temporales de rob-this
+
+### Ejecución de pruebas
+Para asegurarnos que el programa funciona, se implementó una suite de pruebas unitarias automatizadas utilizando la librería estándar rackunit de Racket. Esta herramienta nos permite hacer diversas pruebas que verifican si la salida de la función pura coincide con el comportamiento esperado.
 
 La ejecución de las pruebas arrojó que el programa pasa exitosamente todos los escenarios probados:
 
@@ -55,16 +64,9 @@ La ejecución de las pruebas arrojó que el programa pasa exitosamente todos los
 
 Cabe mencionar que en el código agregué algunos comentarios que muestran lo que pasa al correrlo, sin embargo como en los lenguajes funcionales no puedes externar las variables fuera de las funciones, esto para evitar los efectos secundarios, por lo que las cantidades mostradas en la línea de comandos fueron escritas manualmente.
 
-### Lógica de la Solución
-Para resolver este problema, el código implementa DFS (Depth First Search) de abajo hacia arriba. En lugar de utilizar variables globales o acumuladores, se usa una función recursiva que evalúa cada nodo y devuelve siempre una lista inmutable con dos valores: el beneficio máximo del escenario donde sí se roba esa casa, y el beneficio máximo del escenario donde no se roba.
+TO-DO AGREGAR EXPLICACIÓN DE QUE MI CODIGO SI FUNCIONA EN LEETCODE
 
-Por lo que siempre vamos a saber cuando es el valor obtenido en cualquier de los 2 casos, si comenzamos robando la casa inicial (la raiz) o si decidimor robar a sus hijos inmediatos. Con esto, solamente nos queda comparar los 2 resultados y tomar el que más ganancias nos da.
 
-Esta arquitectura demuestra de manera efectiva la aplicación del paradigma de programación funcional por las siguientes razones:
-
-- Inmutabilidad estricta: En ningún momento del algoritmo se reasignan valores a una variable, algo que ni si quiera es posible en Racket. Los estados se propagan matemáticamente a través de la pila de recursión y las variables solamente aparecen y desaparecen cuando dejan de ser útiles.
-
-- Funciones puras y recursividad: Se eliminan por completo los ciclos como los for o while. La lógica se basa en una función pura que, ante el mismo subárbol de entrada, garantiza retornar siempre la misma lista de salida, comportándose exactamente como la "caja negra" descrita por Louden.
 
 ## Solución B
 Para la solución B, usando el paradigma concurrente, la idea principal sería aplicar directamente el concepto de "dividir y conquistar". Como la decisión que tomemos sobre los nodos del lado izquierdo del árbol no afecta a las decisiones del lado derecho, podemos tratar ambos lados como dos tareas completamente independientes.

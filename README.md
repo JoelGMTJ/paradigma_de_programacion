@@ -24,7 +24,7 @@ Las 2 posibles soluciones que voy a implementar y describir las voy a llamar sol
 Mientras que para la solución **B**, solamente voy a describir el cómo se podría implementar en el paradigma **concurrente**. Por lo que, al no implementarlo, solamente voy a describirlo sin usar ningún lenguaje de programación.
 
 ### Programación funcional
-La programación funcional viene muy estrechamente desde las matemáticas, pues se basa en las funciones, en que le damos una entrada 'input' y al final obtenemos una salida 'output', no nos importa lo que pase dentro, el autor Kenneth Louden lo describe como una "Black box for obtaining output from the input". (Kenneth Louden 2003, p. 471)
+La programación funcional viene muy estrechamente desde las matemáticas, pues se basa en las funciones, en que le damos una entrada 'input' y al final obtenemos una salida 'output', no nos importa lo que pase dentro, el autor Kenneth Louden lo describe como una "Black box for obtaining output from the input". (Louden 2003, p. 471)
 
 Algo igualmente interesante es que en el paradigma de programación funcional eliminamos el concepto de variables, solamente nos quedamos con constantes, parámetros y valores.
 En este paradigma tomamos las funciones como objetos, que funcionen tanto como funciones como parámetros, por lo que va a ser común el pasar como parámetro una función, algo bastante inusual si lo vemos desde la perspectiva de la programación orientada a objetos.
@@ -44,7 +44,7 @@ La principal desventaja es la sobrecarga (overhead) de comunicación y organizac
 Como he usado el lenguaje Racket, para correr el código es necesario tener instalado el compilador de Racket, con este podemos correr el código y observar los resultados.
 
 También mencionar que mi solución principal con las pruebas se ubicará en el [archivo principal](/implementacionFuncional.rkt), mientras que la solución que funciona en leetcode se encuentra en el [archivo para leetcode](/implementacionLeetcode.rkt).
-Realizé esto para mantener las soluciones separadas, el archivo principal contiene algunos comentarios sobre las funciones, mis casos de prueba, y en general cosas extra que no son necesarias para que leetcode compruebe que funcione mi solución.
+Realicé esto para mantener las soluciones separadas, el archivo principal contiene algunos comentarios sobre las funciones, mis casos de prueba, y en general cosas extra que no son necesarias para que leetcode compruebe que funcione mi solución.
 Por lo que para probar la solución directamente en leetcode, puede copiar todo el código del archivo, y reemplazar todo el template que se encuentra en leetcode al seleccionar el lenguaje de **Racket**. Con esto se puede comprobar que mi solución funciona, al igual que adjuntaré imágenes de su rendimiento en unos momentos.
 
 ### Lógica de la Solución
@@ -85,15 +85,22 @@ Para asegurarnos que el programa funciona, se implementó una suite de pruebas u
 
 La ejecución de las pruebas arrojó que el programa pasa exitosamente todos los escenarios probados:
 
-- Casos Límite y Base (Pruebas 1 y 2): Se evaluó el comportamiento ante un árbol completamente nulo (retornando 0 como se espera por la ausencia de casas) y un árbol con un solo nodo (retornando el valor de dicha casa), demostrando que la condición de parada de la recursividad funciona correctamente.
+- **Casos Límite y Base (Pruebas 1 y 2)**: Se evaluó el comportamiento ante un árbol vacío de 0 nodos (retornando 0 como se esperaba) y un árbol de 1 nodo en 1 nivel (retornando únicamente el valor de la raiz), demostrando que la condición de parada de la recursividad funciona correctamente.
 
-- Casos de Uso Generales (Pruebas 3 y 4): Se transcribieron las estructuras jerárquicas descritas en la literatura del problema (LeetCode, s.f.). Las pruebas automatizadas construyeron los árboles equivalentes a los arreglos [3,2,3,null,3,null,1] y [3,4,5,1,3,null,1], confirmando que el algoritmo toma las decisiones óptimas correctas sin violar la restricción de adyacencia, retornando beneficios de 7 y 9 respectivamente.
+- **Casos de ejemplo de Leetcode (Pruebas 3 y 4)**: Se transcribieron las estructuras descritas en los ejemplos del problema original (LeetCode, s.f.). Las pruebas automatizadas construyeron los árboles de 5 y 6 nodos equivalentes a los arreglos [3,2,3,null,3,null,1] y [3,4,5,1,3,null,1], confirmando que el algoritmo toma las decisiones óptimas correctas sin violar la restricción de adyacencia, retornando beneficios de 7 y 9 respectivamente.
 
-- Casos de Desbalanceo (Prueba 5): Se probó la resistencia del algoritmo ante un "árbol degenerado" (una estructura donde cada nodo padre solo tiene un hijo izquierdo, asimilándose a una lista enlazada). El programa logró abstraer la estructura lineal y propagó el estado inmutable de forma correcta.
+- **Caso de Desbalanceo (Prueba 5)**: Se probó la resistencia del algoritmo ante una estructura lineal (un árbol de 3 nodos en 3 niveles, asimilándose a una lista enlazada). El programa logró abstraer la asimetría y propagó el estado inmutable de forma correcta, retornando 4.
 
-Cabe mencionar que en el código agregué algunos comentarios que muestran lo que pasa al correrlo, sin embargo como en los lenguajes funcionales no puedes externar las variables fuera de las funciones, esto para evitar los efectos secundarios, por lo que las cantidades mostradas en la línea de comandos fueron escritas manualmente.
+- **Casos de Alta Profundidad y Complejidad (Pruebas 6 y 7)**: Se diseñaron árboles más grandes para validar la propiedad de subestructura óptima. La prueba 6 procesa un árbol de 11 nodos en 4 niveles, demostrando que el algoritmo ignora decisiones puramente greedy para encontrar el máximo global de 54. La prueba 7 procesa un árbol en zig-zag de 5 nodos en 5 niveles, validando la estabilidad de la recursión ante cambios constantes de dirección, retornando 9.
 
-TO-DO AGREGAR EXPLICACIÓN DE QUE MI CODIGO SI FUNCIONA EN LEETCODE
+El caso 6 fue descrito más a detalle en la explicación con mis diagramas en un apartado superior.
+
+Cabe mencionar que, aunque la ejecución interna es completamente inmutable para evitar efectos secundarios propios del paradigma funcional, se agregaron impresiones visuales de consola a la suite de pruebas para confirmar el éxito de cada evaluación de forma legible.
+
+Igualmente he probado mi solución en leetcode, use la versión específica para Leetcode y obtuve los siguientes resultados:
+![Runtime](/images/leetcodeRuntime.png)
+![Memoria](/images/leetcodeMemory.png)
+Es decir que pasaron todas las pruebas de Leetcode, por lo que puedo asegurar que mi solución es positiva.
 
 ## Solución B
 Para la solución B, usando el paradigma concurrente, la idea principal sería aplicar directamente el concepto de "dividir y conquistar". Como la decisión que tomemos sobre los nodos del lado izquierdo del árbol no afecta a las decisiones del lado derecho, podemos tratar ambos lados como dos tareas completamente independientes.

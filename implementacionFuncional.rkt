@@ -54,12 +54,39 @@
   (check-equal? (rob tree2) 9 "<<Fallo en Caso 4: Ejemplo 2 de la literatura>>")
   (displayln "Caso 4 superado: Ejemplo 2 de la literatura resuelto (Ganancia: 9).")
 
-  ;; Caso 5: Árbol degenerado
+  ;; Caso 5: Árbol degenerado (3 niveles)
   ;; Árbol: 1 -> left: 2 -> left: 3 -> Respuesta esperada: 1 + 3 = 4
   (define degenerate-tree
     (make-tree-node 1 (make-tree-node 2 (make-tree-node 3 #f #f) #f) #f))
   (check-equal? (rob degenerate-tree) 4 "<<Fallo en Caso 5: Árbol degenerado izquierdo>>")
   (displayln "Caso 5 superado: Árbol degenerado procesado con éxito.")
+
+  ;; Caso 6: Árbol profundo balanceado (4 niveles)
+  ;; Raíz(10) -> Hijos(1, 2) -> Nietos(3,4 y 5,6) -> Bisnietos(7,8 y 9,10)
+  
+  (define deep-tree
+    (make-tree-node 10
+      (make-tree-node 1
+        (make-tree-node 3 (make-tree-node 7 #f #f) (make-tree-node 8 #f #f))
+        (make-tree-node 4 #f #f))
+      (make-tree-node 2
+        (make-tree-node 5 (make-tree-node 9 #f #f) (make-tree-node 10 #f #f))
+        (make-tree-node 6 #f #f))))
+  (check-equal? (rob deep-tree) 54 "<<Fallo en Caso 6: Árbol profundo>>")
+  (displayln "Caso 6 superado: Árbol profundo de 4 niveles resuelto (Ganancia: 54).")
+
+  ;; Caso 7: Árbol profundo en Zig-Zag (5 niveles)
+  ;; 5 -> right: 4 -> left: 3 -> right: 2 -> left: 1
+  (define zigzag-tree
+    (make-tree-node 5 #f
+      (make-tree-node 4
+        (make-tree-node 3 #f
+          (make-tree-node 2
+            (make-tree-node 1 #f #f)
+            #f))
+        #f)))
+  (check-equal? (rob zigzag-tree) 9 "<<Fallo en Caso 7: Árbol en Zig-Zag>>")
+  (displayln "Caso 7 superado: Árbol profundo en Zig-Zag resuelto (Ganancia: 9).")
 )
 
 (displayln "<<Todas las pruebas pasaron correctamente!>>")

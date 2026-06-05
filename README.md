@@ -47,15 +47,36 @@ TO-DO MENCIONAR QUE SE PUEDE CORRER DIRECTAMENTE EN LEETCODE
 
 ### Lógica de la Solución
 Como implementé mi lógica es con un DFS, la cual siempre te va a devolver una lista con 2 valores, uno en el que sí robas la casa actual y otro en el que no. El caso base de esta función es que llegues al final y el nodo no exista, en cual caso vamos a agregarle 0 a ambos valores.
-También usamos el **match-let** para que los valores que nos regresa el DFS. Esta función de match-let funciona usando *pattern-matching*, la cual nos ayuda a almacenarlos en identificadores (los cuales funcionan similar a variables, pero siendo inmutables  y siendo locales) y con esto las podremos usar a nuestra conveniencia.
+También usamos el **match-let** para desestructurar los valores que nos regresa el DFS. Esta función de match-let funciona usando *pattern-matching*, la cual nos ayuda a almacenarlos en identificadores (los cuales funcionan similar a variables, pero siendo inmutables  y siendo locales) y con esto las podremos usar a nuestra conveniencia.
 
 Luego en los identificadores de rob-this y not-rob-this les vamos a sumar los valores previos, pero cada uno funciona ligeramente diferente.
 Para rob-this, es imposible robar a sus hijos, por lo que nos vemos obligados a sumarle el resultado de NO robar a sus hijos.
-Ahora, para not-rob-this es ligeramente diferente, en que podemos tomar la desición de usar los valores que robamos a sus hijos o no, por lo que vamos a tomar el máximo de estas 2 opciones, así garantizando que podamos tomar patrones ligeramente inusuales para robar lo más posible.
+Ahora, para not-rob-this es ligeramente diferente, en que podemos tomar la decisión de usar los valores que robamos a sus hijos o no, por lo que vamos a tomar el máximo de estas 2 opciones, así garantizando que podamos tomar patrones ligeramente inusuales para robar lo más posible.
 
 Luego ya fuera de la función DFS, solamente vamos a regresar el valor más grande de los 2. Con esto resolvemos el problema y hacemos lo que nos pide Leetcode, regresar la mayor cantidad de dinero que podríamos robar.
 
 Con esto logramos ver que nuestra solución aprovecha las ventajas de la programación funcional, y no tiene variables mutables, sino que toda la información la estamos pasando mediante las funciones, dejando el código más limpio y sin usar ciclos ni variables globales.
+
+### Explicación con diagramas
+![Árbol del problema ](/images/emptyTree.png)
+Aquí podemos ver una representación del árbol con el que estaremos trabajando. Es el del caso de prueba 6.
+A continuación explicaré paso a paso como se vería la solución de mi problema.
+
+![Zoom en hojas de árbol](/images/leftmostCloseup.png)
+Primero nos vamos a centrar en las hojas que están hasta la izquierda de nuestro árbol. Las cajas que se encuentran debajo nos dirán que valores tiene cada nodo en caso de
+1) Sí robarlo
+2) No robarlo
+
+Los nodos que contienen el 2 y el 9 son hojas, entonces no tienen que considerar a nadie más, pero su padre, el nodo 3 tiene que considerar a sus 2 hijos.
+La forma de verlo es la siguiente, si vamos a robarlo, es imposible robar a sus hijos, por lo que nos vamos a quedar con el **valor del nodo actual '3'** y el valor de **not-rob** de su hijo izquierdo y derecho.
+En cambio si decidimos NO robarlo, vamos a quedarnos SIN el valor del nodo actual, y con el valor mayor de sus hijos, puede ser tanto el 'rob-this' o 'not-rob-this', es independiente para cada hijo.
+Por lo que si decidimos robar al nodo 3, solamente nos vamos a poder quedar con su valor más los valores de not-rob-this de sus hijos $3 + 0 + 0 = 3$.
+Pero si decidimos no robarlo nos quedaremos sin su valor actual, pero con el mayor de cada una de las opciones de sus hijos $max(2,0) + max(9,0)$ -> $2 + 9 = 11$.
+
+Esto el programa lo va a realizar para cada uno de los nodos y vamos a ir del mismo orden, de abajo hacia arriba (bottom-up).
+
+![Árbol con todos los valores de sus nodos](/images/cleanTree.png)
+Al realizar este proceso para cada uno de los nodos, vamos a llegar hasta el nodo raíz, y ahí es seleccionar al valor mayor, el cual nos aseguramos que **siempre** va a ser la mayor cantidad posible a robar.
 
 ### Ejecución de pruebas
 Para asegurarnos que el programa funciona, se implementó una suite de pruebas unitarias automatizadas utilizando la librería estándar rackunit de Racket. Esta herramienta nos permite hacer diversas pruebas que verifican si la salida de la función pura coincide con el comportamiento esperado.

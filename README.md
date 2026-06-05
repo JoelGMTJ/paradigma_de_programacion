@@ -24,7 +24,7 @@ Las 2 posibles soluciones que voy a implementar y describir las voy a llamar sol
 Mientras que para la solución **B**, solamente voy a describir el cómo se podría implementar en el paradigma **concurrente**. Por lo que, al no implementarlo, solamente voy a describirlo sin usar ningún lenguaje de programación.
 
 ### Programación funcional
-La programación funcional viene muy estrechamente desde las matemáticas, pues se basa en las funciones, en que le damos una entrada 'input' y al final obtenemos una salida 'output', no nos importa lo que pase dentro, el autor Kenneth Louden lo describe como una "Black box for obtaining output from the input".
+La programación funcional viene muy estrechamente desde las matemáticas, pues se basa en las funciones, en que le damos una entrada 'input' y al final obtenemos una salida 'output', no nos importa lo que pase dentro, el autor Kenneth Louden lo describe como una "Black box for obtaining output from the input". (Kenneth Louden 2003, p. 471)
 
 Algo igualmente interesante es que en el paradigma de programación funcional eliminamos el concepto de variables, solamente nos quedamos con constantes, parámetros y valores.
 En este paradigma tomamos las funciones como objetos, que funcionen tanto como funciones como parámetros, por lo que va a ser común el pasar como parámetro una función, algo bastante inusual si lo vemos desde la perspectiva de la programación orientada a objetos.
@@ -32,7 +32,7 @@ En este paradigma tomamos las funciones como objetos, que funcionen tanto como f
 Las principales ventajas de este paradigma de programación es que nos evitamos el manejo de memoria, pues ocurre automáticamente, semántica máss simple, y el evitarnos efectos secundarios que puedan ocurrir al momento de correr los programas.
 
 ### Programación concurrente
-Este paradigma se aleja de la ejecución secuencial tradicional, donde una instrucción debe terminar para que la siguiente comience, y en su lugar se basa en ejecutar varias tareas el mismo tiempo. El autor David Watt describe la programación concurrente como un paradigma que se enfoca en sistemas formados por múltiples procesos independientes que se ejecutan al mismo tiempo y que, ocasionalmente, necesitan interactuar entre sí.
+Este paradigma se aleja de la ejecución secuencial tradicional, donde una instrucción debe terminar para que la siguiente comience, y en su lugar se basa en ejecutar varias tareas el mismo tiempo. El autor David Watt (1990) describe la programación concurrente como un paradigma que se enfoca en sistemas formados por múltiples procesos independientes que se ejecutan al mismo tiempo y que, ocasionalmente, necesitan interactuar entre sí.
 
 Algo fundamental en este paradigma es el concepto de dividir el trabajo. En lugar de tener un solo flujo de control (un solo hilo) resolviendo todo el problema de inicio a fin, el programa se divide en sub-tareas que pueden progresar al mismo tiempo. Sin embargo, a diferencia de la programación funcional que evita los estados mutables, la concurrencia introduce el reto de los recursos compartidos. Al tener múltiples procesos ejecutándose a la vez, tenemos que considerar lo siguiente, si queremos hacer varias tareas al mismo tiempo, tenemos que tener una estructura bastante clara de el cómo queremos dividir las tareas.
 

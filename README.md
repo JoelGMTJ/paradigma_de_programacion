@@ -43,7 +43,9 @@ La principal desventaja es la sobrecarga (overhead) de comunicación y organizac
 ## Solución A
 Como he usado el lenguaje Racket, para correr el código es necesario tener instalado el compilador de Racket, con este podemos correr el código y observar los resultados.
 
-TO-DO MENCIONAR QUE SE PUEDE CORRER DIRECTAMENTE EN LEETCODE
+También mencionar que mi solución principal con las pruebas se ubicará en el [archivo principal](/implementacionFuncional.rkt), mientras que la solución que funciona en leetcode se encuentra en el [archivo para leetcode](/implementacionLeetcode.rkt).
+Realizé esto para mantener las soluciones separadas, el archivo principal contiene algunos comentarios sobre las funciones, mis casos de prueba, y en general cosas extra que no son necesarias para que leetcode compruebe que funcione mi solución.
+Por lo que para probar la solución directamente en leetcode, puede copiar todo el código del archivo, y reemplazar todo el template que se encuentra en leetcode al seleccionar el lenguaje de **Racket**. Con esto se puede comprobar que mi solución funciona, al igual que adjuntaré imágenes de su rendimiento en unos momentos.
 
 ### Lógica de la Solución
 Como implementé mi lógica es con un DFS, la cual siempre te va a devolver una lista con 2 valores, uno en el que sí robas la casa actual y otro en el que no. El caso base de esta función es que llegues al final y el nodo no exista, en cual caso vamos a agregarle 0 a ambos valores.
@@ -92,8 +94,6 @@ La ejecución de las pruebas arrojó que el programa pasa exitosamente todos los
 Cabe mencionar que en el código agregué algunos comentarios que muestran lo que pasa al correrlo, sin embargo como en los lenguajes funcionales no puedes externar las variables fuera de las funciones, esto para evitar los efectos secundarios, por lo que las cantidades mostradas en la línea de comandos fueron escritas manualmente.
 
 TO-DO AGREGAR EXPLICACIÓN DE QUE MI CODIGO SI FUNCIONA EN LEETCODE
-
-
 
 ## Solución B
 Para la solución B, usando el paradigma concurrente, la idea principal sería aplicar directamente el concepto de "dividir y conquistar". Como la decisión que tomemos sobre los nodos del lado izquierdo del árbol no afecta a las decisiones del lado derecho, podemos tratar ambos lados como dos tareas completamente independientes.
